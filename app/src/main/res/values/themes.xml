@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme -->
+    <style name="Base.Theme.LearnPE1" parent="Theme.Material3.DayNight.NoActionBar">
+
+    </style>
+
+    <style name="Theme.LearnPE1" parent="Base.Theme.LearnPE1">
+        <!-- Customize your app's theme here -->
+    </style>
+</resources>

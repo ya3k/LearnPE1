@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "136650856689",
+    "project_id": "learnpeprm392",
+    "storage_bucket": "learnpeprm392.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136650856689:android:4fcf8a3b207b088fb6b150",
+        "android_client_info": {
+          "package_name": "com.prm392.learnpe1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC57Q_qaPHdAFnQz3ZmiDvzeCsn4KUr6FU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
