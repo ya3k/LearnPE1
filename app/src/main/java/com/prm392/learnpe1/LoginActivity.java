@@ -23,6 +23,7 @@ import com.prm392.learnpe1.model.Product;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -82,18 +83,27 @@ private FirebaseFirestore database;
     }
 
     private List<Product> getList() {
-
         List<Product> products = Arrays.asList(
-                new Product("Product 1", "Description for product 1", 10, "https://mymenu.vn/assets/images/products/795/450x450/pl.jpg"),
-                new Product("Product 2", "Description for product 2" ,20, "https://mymenu.vn/assets/images/products/732/450x450/450-pizza-mag-01.jpg"),
-                new Product("Product 3", "Des", 30, "https://mymenu.vn/assets/images/products/904/450x450/450-pizza-chay-01.jpg"),
-                new Product("Product 4", "Des", 50, "https://mymenu.vn/assets/images/products/905/450x450/450-pizza-nam-01.jpg"),
-                new Product("Product 5", "Des", 40, "https://mymenu.vn/assets/images/products/733/450x450/pizza-peperoni-mn-01.jpg")
+                new Product(UIDRandom(), "Product 1", "Description for product 1", 10, "https://mymenu.vn/assets/images/products/795/450x450/pl.jpg"),
+                new Product(UIDRandom(), "Product 2", "Description for product 2", 20, "https://mymenu.vn/assets/images/products/732/450x450/450-pizza-mag-01.jpg"),
+                new Product(UIDRandom(), "Product 3", "Des", 30, "https://mymenu.vn/assets/images/products/904/450x450/450-pizza-chay-01.jpg"),
+                new Product(UIDRandom(), "Product 4", "Des", 50, "https://mymenu.vn/assets/images/products/905/450x450/450-pizza-nam-01.jpg"),
+                new Product(UIDRandom(), "Product 5", "Des", 40, "https://mymenu.vn/assets/images/products/733/450x450/pizza-peperoni-mn-01.jpg")
         );
 
         return products;
     }
 
+    public String UIDRandom() {
+        // Generate current timestamp as a string
+        String ts = String.valueOf(System.currentTimeMillis());
+
+        // Generate a random UUID
+        String rand = UUID.randomUUID().toString();
+
+        // Combine timestamp and UUID, then hash with SHA-1
+        return (ts + rand);
+    }
     private void insertProductListToFireStore() {
         List<Product> products = getList();
 

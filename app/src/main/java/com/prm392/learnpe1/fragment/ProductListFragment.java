@@ -43,6 +43,8 @@ public class ProductListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_product_list, container, false);
+        //init firestore
+        database =  FirebaseFirestore.getInstance();
 
         //init recyclerview
         recyclerView = view.findViewById(R.id.recyclerViewProducts);
@@ -52,14 +54,14 @@ public class ProductListFragment extends Fragment {
 
         // Initialize product list and adapter
         productList = new ArrayList<>();
+
+        //load product list
+        loadProducts();
         adapter =  new ProductAdapter(productList);
         recyclerView.setAdapter(adapter);
 
 
-        //init firestore
-        database =  FirebaseFirestore.getInstance();
 
-        loadProducts();
         return view;
 
     }

@@ -2,6 +2,7 @@ package com.prm392.learnpe1.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,10 +20,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     private List<Cart> cartList;
     private OnQuantityChangeListener onQuantityChangeListener;
+    private OnCartItemRemove onCartItemRemove;
 
-    public CartAdapter(List<Cart> cartList, OnQuantityChangeListener onQuantityChangeListener) {
+    public CartAdapter(List<Cart> cartList, OnQuantityChangeListener onQuantityChangeListener, OnCartItemRemove onCartItemRemove) {
+
         this.cartList = cartList;
         this.onQuantityChangeListener = onQuantityChangeListener;
+        this.onCartItemRemove = onCartItemRemove;
     }
 
     public CartAdapter(List<Cart> cartList) {
@@ -34,14 +38,16 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         private final TextView nameTv, priceTv, quantityTv;
         private ImageView imgProduct;
         private CardView cView;
+        private Button btnDelete;
 
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTv = itemView.findViewById(R.id.txtProductName);
-            priceTv = itemView.findViewById(R.id.txtProductPrice);
-            quantityTv = itemView.findViewById(R.id.txtCartProductQuantity);
-            imgProduct = itemView.findViewById(R.id.imgProduct);
-            cView = itemView.findViewById(R.id.cview);
+            nameTv = itemView.findViewById(R.id.txtcProductName);
+            priceTv = itemView.findViewById(R.id.txtcProductPrice);
+            quantityTv = itemView.findViewById(R.id.txtcQuantity);
+            imgProduct = itemView.findViewById(R.id.cImg);
+            btnDelete = itemView.findViewById(R.id.btnDelete);
+            cView = itemView.findViewById(R.id.cCview);
         }
     }
 
@@ -56,34 +62,30 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.CartViewHolder holder, int position) {
         Cart cart = cartList.get(position);
+
         holder.nameTv.setText(cart.getProductName());
-        holder.priceTv.setText(String.valueOf(cart.getProductPrice()));
-        holder.quantityTv.setText(cart.getQuantity());
+        String formattedPrice = String.format("$%.2f", cart.getProductPrice());
+        holder.priceTv.setText(formattedPrice);
+        holder.quantityTv.setText(String.valueOf(cart.getQuantity()));
         Glide.with(holder.itemView.getContext()).load(cart.getProductImage()).into(holder.imgProduct);
 
-//        // Set up the increment button
-//        holder.itemView.findViewById(R.id.btnIncrease).setOnClickListener(v -> {
-//            int quantity = cart.getQuantity();
-//            cart.setQuantity(quantity + 1); // Increase quantity
-//            onQuantityChangeListener.onQuantityChange(position, quantity + 1);
-//            holder.quantityTv.setText(String.valueOf(quantity + 1));
-//        });
-//        // Set up the decrement button
-//        holder.itemView.findViewById(R.id.btnDecrease).setOnClickListener(v -> {
-//            int quantity = cart.getQuantity();
-//            if (quantity > 1) { // Prevent negative quantity
-//                cart.setQuantity(quantity - 1); // Decrease quantity
-//                onQuantityChangeListener.onQuantityChange(position, quantity - 1);
-//                holder.quantityTv.setText(String.valueOf(quantity - 1));
-//            }
-//        });
+        holder.btnDelete.setOnClickListener(view -> {
+            if(onCartItemRemove != null){
+                onCartItemRemove.onCartItemRemove(position);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return cartList.size();
     }
+
     public interface OnQuantityChangeListener {
         void onQuantityChange(int position, int quantity);
+    }
+
+    public interface  OnCartItemRemove{
+        void onCartItemRemove(int position);
     }
 }

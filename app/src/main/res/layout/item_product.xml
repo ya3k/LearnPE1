@@ -4,27 +4,27 @@
     android:id="@+id/cview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="10dp"
     android:layout_margin="10dp"
-    >
+    app:cardCornerRadius="10dp">
 
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="5dp"
-        >
+        android:padding="5dp">
 
         <ImageView
-            android:id="@+id/imgProduct"
+            android:id="@+id/imgPro"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:contentDescription="@string/product_image"
             android:scaleType="center" />
 
+
+
         <TextView
-            android:id="@+id/txtProductName"
+            android:id="@+id/txtProName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -32,13 +32,13 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtProductDescription"
+            android:id="@+id/txtProDes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/txtProductPrice"
+            android:id="@+id/txtProPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

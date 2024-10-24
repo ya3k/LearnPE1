@@ -36,10 +36,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameTv = itemView.findViewById(R.id.txtProductName);
-            priceTv = itemView.findViewById(R.id.txtProductPrice);
-            descriptionTv = itemView.findViewById(R.id.txtProductDescription);
-            imgProduct = itemView.findViewById(R.id.imgProduct);
+//            proID = itemView.findViewById(R.id.txtProID);
+            nameTv = itemView.findViewById(R.id.txtProName);
+            priceTv = itemView.findViewById(R.id.txtProPrice);
+            descriptionTv = itemView.findViewById(R.id.txtProDes);
+            imgProduct = itemView.findViewById(R.id.imgPro);
             cView = itemView.findViewById(R.id.cview);
         }
     }
@@ -54,6 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductAdapter.ProductViewHolder holder, int position) {
         Product product = productList.get(position);
+//        holder.proID.setText(product.getId());
         holder.nameTv.setText(product.getProName());
 
         String formattedPrice = String.format("$%.2f", product.getPrice());
