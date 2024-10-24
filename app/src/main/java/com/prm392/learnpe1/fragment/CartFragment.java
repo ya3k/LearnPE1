@@ -22,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.prm392.learnpe1.R;
 import com.prm392.learnpe1.adapter.CartAdapter;
 import com.prm392.learnpe1.model.Cart;
+import com.prm392.learnpe1.model.Order;
 import com.prm392.learnpe1.model.Product;
 
 import org.w3c.dom.Text;
@@ -78,7 +79,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnQuantityChan
 
 
         checkoutBtn.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Order placed successfully.", Toast.LENGTH_SHORT).show();
+            placeOrder();
         });
 
         return view;
@@ -109,8 +110,49 @@ public class CartFragment extends Fragment implements CartAdapter.OnQuantityChan
     }
 
     private void placeOrder() {
+        String userId = auth.getCurrentUser().getUid();
+
+        double total = 0;
+        for (Cart item : cartList) {
+            total += item.getQuantity() * item.getProductPrice();
+        }
+        Order order = new Order(userId, cartList, total, System.currentTimeMillis());
 
 
+        database.collection("orders").document(userId)
+                .collection("user").add(order)
+                .addOnCompleteListener(task -> {
+                    if(cartList == null || cartList.isEmpty()){
+                        Toast.makeText(getContext(), "Cart is empty", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    clearCart(userId);
+                    Toast.makeText(getContext(), "Order placed successfully.", Toast.LENGTH_SHORT).show();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Failed to place order: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+
+    }
+
+    private void clearCart(String userId) {
+        // Clear the cart in Firestore
+        database.collection("carts").document(userId).collection("user")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot snapshot : task.getResult().getDocuments()) {
+                            snapshot.getReference().delete();
+                        }
+                        // Clear local cart list
+                        cartList.clear();
+                        adapter.notifyDataSetChanged();
+                        updateTotalPrice();
+                        checkCartEmptyState();
+                    } else {
+                        Toast.makeText(getContext(), "Failed to clear cart: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void checkCartEmptyState() {
@@ -122,6 +164,7 @@ public class CartFragment extends Fragment implements CartAdapter.OnQuantityChan
             tvEmptyCartMessage.setVisibility(View.GONE);  // Hide the empty cart message
         }
     }
+
     @Override
     public void onQuantityChange(int position, int quantity) {
         // Update the quantity in the cartList

@@ -50,7 +50,7 @@ public class ProductListFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerViewProducts);
 
         // Set a GridLayoutManager with 2 columns
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2)); // Change here
+        recyclerView.setLayoutManager(new GridLayoutManager(this.getContext(), 2)); // Change here
 
         // Initialize product list and adapter
         productList = new ArrayList<>();

@@ -37,21 +37,12 @@ public class MainActivity extends AppCompatActivity {
         // binding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //init toolbar
+        setSupportActionBar(binding.toolbar);
         // firebase
         database = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        replaceFragment(new ProductListFragment());
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_product_list) {
-                replaceFragment(new ProductListFragment());
-            } else if (itemId == R.id.nav_cart) {
-                replaceFragment(new CartFragment());
-            } else if (itemId == R.id.nav_order_history) {
-                replaceFragment(new OrderHistoryFragment());
-            }
-            return true;
-        });
 
 
         // Kiểm tra nếu người dùng đã đăng nhập
@@ -61,6 +52,30 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "User not logged in. Redirecting to Login.", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(MainActivity.this, LoginActivity.class));
         }
+
+        replaceFragment(new ProductListFragment());
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_product_list) {
+                replaceFragment(new ProductListFragment());
+                setTitle("Products");
+            } else if (itemId == R.id.nav_cart) {
+                replaceFragment(new CartFragment());
+                setTitle("Cart");
+            } else if (itemId == R.id.nav_order_history) {
+                replaceFragment(new OrderHistoryFragment());
+                setTitle("Order History");
+            }
+            return true;
+        });
+
+        binding.btnCart.setOnClickListener(v ->{
+            replaceFragment(new CartFragment());
+            setTitle("Cart");
+        });
+
+
+
 
 
     }
